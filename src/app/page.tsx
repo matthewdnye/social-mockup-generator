@@ -50,7 +50,7 @@ const platforms = [
       </svg>
     ),
     color: 'bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] hover:opacity-90',
-    available: false,
+    available: true,
   },
   {
     id: 'threads',
