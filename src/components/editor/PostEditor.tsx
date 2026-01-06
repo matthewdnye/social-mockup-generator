@@ -17,6 +17,7 @@ import { AvatarUpload } from './AvatarUpload'
 import { MetricsEditor } from './MetricsEditor'
 import { ThemeSelector } from './ThemeSelector'
 import { ImageAttachment } from './ImageAttachment'
+import { ProfileManager } from './ProfileManager'
 
 const clientOptions = [
   'Twitter for iPhone',
@@ -43,6 +44,11 @@ export function PostEditor() {
 
       {/* Theme Selector */}
       <ThemeSelector />
+
+      <hr className="border-gray-200" />
+
+      {/* Saved Profiles */}
+      <ProfileManager />
 
       <hr className="border-gray-200" />
 

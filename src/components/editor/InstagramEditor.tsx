@@ -9,6 +9,7 @@ import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { AvatarUpload } from './AvatarUpload'
 import { ImageAttachment } from './ImageAttachment'
+import { ProfileManager } from './ProfileManager'
 
 export function InstagramEditor() {
   const {
@@ -60,6 +61,11 @@ export function InstagramEditor() {
           </button>
         </div>
       </div>
+
+      <hr className="border-gray-200" />
+
+      {/* Saved Profiles */}
+      <ProfileManager />
 
       <hr className="border-gray-200" />
 

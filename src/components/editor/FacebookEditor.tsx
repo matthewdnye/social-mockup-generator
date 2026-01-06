@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select'
 import { AvatarUpload } from './AvatarUpload'
 import { ImageAttachment } from './ImageAttachment'
+import { ProfileManager } from './ProfileManager'
 
 const privacyOptions = [
   { value: 'public', label: 'Public', description: 'Anyone can see this post' },
@@ -75,6 +76,11 @@ export function FacebookEditor() {
           </button>
         </div>
       </div>
+
+      <hr className="border-gray-200" />
+
+      {/* Saved Profiles */}
+      <ProfileManager />
 
       <hr className="border-gray-200" />
 

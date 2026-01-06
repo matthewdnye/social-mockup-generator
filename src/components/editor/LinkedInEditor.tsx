@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select'
 import { AvatarUpload } from './AvatarUpload'
 import { ImageAttachment } from './ImageAttachment'
+import { ProfileManager } from './ProfileManager'
 
 const connectionDegreeOptions = ['1st', '2nd', '3rd'] as const
 
@@ -79,6 +80,11 @@ export function LinkedInEditor() {
           </button>
         </div>
       </div>
+
+      <hr className="border-gray-200" />
+
+      {/* Saved Profiles */}
+      <ProfileManager />
 
       <hr className="border-gray-200" />
 
