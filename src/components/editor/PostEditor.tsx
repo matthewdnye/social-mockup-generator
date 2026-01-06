@@ -35,8 +35,8 @@ export function PostEditor() {
   return (
     <div className="space-y-6 overflow-y-auto p-6">
       <div>
-        <h2 className="text-lg font-semibold">Post Editor</h2>
-        <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-gray-900">Post Editor</h2>
+        <p className="text-sm text-gray-600">
           Edit the post content and appearance
         </p>
       </div>
@@ -48,7 +48,7 @@ export function PostEditor() {
 
       {/* Author Section */}
       <div className="space-y-4">
-        <h3 className="font-medium">Author</h3>
+        <h3 className="font-medium text-gray-900">Author</h3>
         <AvatarUpload />
 
         <div className="space-y-1.5">
@@ -85,7 +85,7 @@ export function PostEditor() {
 
       {/* Content Section */}
       <div className="space-y-4">
-        <h3 className="font-medium">Content</h3>
+        <h3 className="font-medium text-gray-900">Content</h3>
         <div className="space-y-1.5">
           <Label htmlFor="content">Post Text</Label>
           <Textarea
@@ -109,7 +109,7 @@ export function PostEditor() {
 
       {/* Meta Section */}
       <div className="space-y-4">
-        <h3 className="font-medium">Post Details</h3>
+        <h3 className="font-medium text-gray-900">Post Details</h3>
         <div className="space-y-1.5">
           <Label htmlFor="client">Posted via</Label>
           <Select value={client} onValueChange={setClient}>

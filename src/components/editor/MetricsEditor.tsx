@@ -12,7 +12,7 @@ export function MetricsEditor() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <Label className="text-base font-semibold">Engagement Metrics</Label>
+        <Label className="text-base font-semibold text-gray-900">Engagement Metrics</Label>
         <Button variant="outline" size="sm" onClick={randomizeMetrics}>
           Randomize
         </Button>

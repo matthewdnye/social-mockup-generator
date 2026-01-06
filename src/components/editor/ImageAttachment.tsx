@@ -44,7 +44,7 @@ export function ImageAttachment() {
 
   return (
     <div className="space-y-3">
-      <Label className="text-base font-semibold">Images</Label>
+      <Label className="text-base font-semibold text-gray-900">Images</Label>
 
       {/* Image previews */}
       {images.length > 0 && (

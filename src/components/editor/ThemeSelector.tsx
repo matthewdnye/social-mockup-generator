@@ -17,7 +17,7 @@ export function ThemeSelector() {
 
   return (
     <div className="space-y-3">
-      <Label className="text-base font-semibold">Theme</Label>
+      <Label className="text-base font-semibold text-gray-900">Theme</Label>
       <div className="flex gap-2">
         {themes.map((t) => (
           <button
@@ -36,7 +36,7 @@ export function ThemeSelector() {
                 t.preview
               )}
             />
-            <span className="text-sm font-medium">{t.label}</span>
+            <span className="text-sm font-medium text-gray-700">{t.label}</span>
           </button>
         ))}
       </div>
