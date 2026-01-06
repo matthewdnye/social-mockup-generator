@@ -26,7 +26,7 @@ const platforms = [
       </svg>
     ),
     color: 'bg-[#0A66C2] hover:bg-[#004182]',
-    available: false,
+    available: true,
   },
   {
     id: 'facebook',
@@ -38,7 +38,7 @@ const platforms = [
       </svg>
     ),
     color: 'bg-[#1877F2] hover:bg-[#0b5ed7]',
-    available: false,
+    available: true,
   },
   {
     id: 'instagram',
