@@ -153,9 +153,9 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
         {/* Post Container */}
         <div className="px-4 py-3">
           {/* Header: Avatar + Name + Handle + More */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-start">
             {/* Avatar */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 mr-3">
               <img
                 src={author.avatar || '/avatars/default.png'}
                 alt={author.name}
@@ -170,7 +170,7 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
             <div className="flex-1 min-w-0">
               {/* Name row */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1 flex-wrap">
+                <div className="flex items-center flex-wrap">
                   <span
                     className={cn(
                       'font-bold text-[15px] leading-5',
@@ -186,7 +186,7 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
                   {author.verified && <VerifiedBadge type={author.verifiedType || 'blue'} />}
                   <span
                     className={cn(
-                      'text-[15px] leading-5',
+                      'text-[15px] leading-5 ml-1',
                       editable && 'outline-dashed outline-2 outline-transparent hover:outline-blue-400/30 focus:outline-blue-400/60 rounded px-0.5'
                     )}
                     contentEditable={editable}
@@ -196,7 +196,7 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
                   >
                     @{author.handle}
                   </span>
-                  <span style={{ color: secondaryColor }}>·</span>
+                  <span className="mx-1" style={{ color: secondaryColor }}>·</span>
                   <span className="text-[15px]" style={{ color: secondaryColor }}>
                     {formatDate(timestamp, 'twitter').split('·')[1]?.trim() || 'Jun 1'}
                   </span>
@@ -231,44 +231,51 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
                     />
                   )}
                   {images.length === 2 && (
-                    <div className="grid grid-cols-2 gap-0.5">
+                    <div className="flex">
                       {images.map((img, i) => (
                         <img
                           key={i}
                           src={img.url}
                           alt={img.alt || `Image ${i + 1}`}
-                          className="w-full h-[286px] object-cover"
+                          className="w-1/2 h-[286px] object-cover"
+                          style={{ marginLeft: i > 0 ? '2px' : 0 }}
                         />
                       ))}
                     </div>
                   )}
                   {images.length === 3 && (
-                    <div className="grid grid-cols-2 gap-0.5">
+                    <div className="flex">
                       <img
                         src={images[0].url}
                         alt={images[0].alt || 'Image 1'}
-                        className="w-full h-[286px] object-cover row-span-2"
+                        className="w-1/2 h-[286px] object-cover"
                       />
-                      <div className="flex flex-col gap-0.5">
+                      <div className="w-1/2 flex flex-col" style={{ marginLeft: '2px' }}>
                         {images.slice(1).map((img, i) => (
                           <img
                             key={i}
                             src={img.url}
                             alt={img.alt || `Image ${i + 2}`}
                             className="w-full h-[142px] object-cover"
+                            style={{ marginTop: i > 0 ? '2px' : 0 }}
                           />
                         ))}
                       </div>
                     </div>
                   )}
                   {images.length >= 4 && (
-                    <div className="grid grid-cols-2 gap-0.5">
+                    <div className="flex flex-wrap">
                       {images.slice(0, 4).map((img, i) => (
                         <img
                           key={i}
                           src={img.url}
                           alt={img.alt || `Image ${i + 1}`}
-                          className="w-full h-[142px] object-cover"
+                          className="w-1/2 h-[142px] object-cover"
+                          style={{
+                            marginLeft: i % 2 === 1 ? '2px' : 0,
+                            marginTop: i >= 2 ? '2px' : 0,
+                            width: i % 2 === 1 ? 'calc(50% - 2px)' : '50%'
+                          }}
                         />
                       ))}
                     </div>
@@ -277,23 +284,23 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
               )}
 
               {/* Timestamp + Client */}
-              <div className="mt-3 flex items-center gap-1 text-[15px]" style={{ color: secondaryColor }}>
+              <div className="mt-3 flex items-center text-[15px]" style={{ color: secondaryColor }}>
                 <span>{formatDate(timestamp, 'twitter').split('·')[0]?.trim()}</span>
-                <span>·</span>
+                <span className="mx-1">·</span>
                 <span className="hover:underline cursor-pointer">{client}</span>
               </div>
 
               {/* Stats row */}
               {(metrics.reposts > 0 || (metrics.quotes ?? 0) > 0 || metrics.likes > 0 || (metrics.bookmarks ?? 0) > 0) && (
                 <div
-                  className="mt-3 py-3 flex items-center gap-5 text-[15px] border-t"
+                  className="mt-3 py-3 flex items-center text-[15px] border-t"
                   style={{ borderColor }}
                 >
                   {metrics.reposts > 0 && (
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center mr-5">
                       <span
                         className={cn(
-                          'font-bold',
+                          'font-bold mr-1',
                           editable && 'outline-dashed outline-2 outline-transparent hover:outline-blue-400/30 focus:outline-blue-400/60 rounded px-0.5'
                         )}
                         contentEditable={editable}
@@ -307,10 +314,10 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
                     </div>
                   )}
                   {metrics.quotes && metrics.quotes > 0 && (
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center mr-5">
                       <span
                         className={cn(
-                          'font-bold',
+                          'font-bold mr-1',
                           editable && 'outline-dashed outline-2 outline-transparent hover:outline-blue-400/30 focus:outline-blue-400/60 rounded px-0.5'
                         )}
                         contentEditable={editable}
@@ -324,10 +331,10 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
                     </div>
                   )}
                   {metrics.likes > 0 && (
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center mr-5">
                       <span
                         className={cn(
-                          'font-bold',
+                          'font-bold mr-1',
                           editable && 'outline-dashed outline-2 outline-transparent hover:outline-blue-400/30 focus:outline-blue-400/60 rounded px-0.5'
                         )}
                         contentEditable={editable}
@@ -341,10 +348,10 @@ export const TwitterPost = forwardRef<HTMLDivElement, TwitterPostProps>(
                     </div>
                   )}
                   {metrics.bookmarks && metrics.bookmarks > 0 && (
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center">
                       <span
                         className={cn(
-                          'font-bold',
+                          'font-bold mr-1',
                           editable && 'outline-dashed outline-2 outline-transparent hover:outline-blue-400/30 focus:outline-blue-400/60 rounded px-0.5'
                         )}
                         contentEditable={editable}
