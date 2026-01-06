@@ -62,7 +62,7 @@ const platforms = [
       </svg>
     ),
     color: 'bg-black hover:bg-gray-800',
-    available: false,
+    available: true,
   },
 ]
 
