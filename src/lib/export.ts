@@ -47,10 +47,16 @@ export async function exportToImage(
   })
 }
 
-export async function downloadImage(blob: Blob, filename: string = 'social-mockup.png'): Promise<void> {
-  // Dynamically import file-saver only on client
-  const { saveAs } = await import('file-saver')
-  saveAs(blob, filename)
+export function downloadImage(blob: Blob, filename: string = 'social-mockup.png'): void {
+  // Use native browser API for downloading
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
 }
 
 export async function exportAndDownload(
@@ -61,8 +67,7 @@ export async function exportAndDownload(
 
   const blob = await exportToImage(element, options)
   if (blob) {
-    const { saveAs } = await import('file-saver')
-    saveAs(blob, filename)
+    downloadImage(blob, filename)
   }
 }
 
