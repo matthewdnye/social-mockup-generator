@@ -86,8 +86,8 @@ export default function TwitterGeneratorPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-lg font-semibold">X/Twitter Post Generator</h1>
-              <p className="text-sm text-gray-500">
+              <h1 className="text-lg font-semibold text-gray-900">X/Twitter Post Generator</h1>
+              <p className="text-sm text-gray-600">
                 Create realistic X/Twitter post mockups
               </p>
             </div>
