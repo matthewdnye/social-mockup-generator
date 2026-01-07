@@ -55,17 +55,17 @@ export function EmailCaptureModal({ isOpen, onClose, onSuccess }: EmailCaptureMo
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal */}
       <div
-        className="relative z-10 w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden"
+        className="relative z-10 w-full max-w-md my-auto bg-white rounded-2xl shadow-2xl overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
