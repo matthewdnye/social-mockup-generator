@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { UserProvider } from '@/lib/user-context'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   )

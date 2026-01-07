@@ -97,7 +97,7 @@ const features = [
   },
   {
     title: 'Instant Download',
-    description: 'Download as PNG instantly, no sign-up required',
+    description: 'Download as high-quality PNG instantly',
     icon: (
       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -118,7 +118,7 @@ export default function HomePage() {
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
           Generate pixel-perfect social media post screenshots for presentations,
-          ad creative previews, and content planning. Free, instant, no sign-up required.
+          ad creative previews, and content planning. Free and instant.
         </p>
       </section>
 
