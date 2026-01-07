@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { brand } from '@/lib/branding'
 import { LinkedInIcon, ExternalLinkIcon, EmailIcon } from '@/components/icons'
 
@@ -39,16 +40,14 @@ export function Footer() {
           {/* Brand Column */}
           <div className="md:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3">
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-lg"
-                style={{ backgroundColor: brand.colors.primary }}
-              >
-                <span
-                  className="text-lg font-bold"
-                  style={{ color: brand.colors.secondary }}
-                >
-                  {brand.shortName}
-                </span>
+              <div className="relative h-10 w-10">
+                <Image
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  width={40}
+                  height={40}
+                  className="rounded-lg object-contain"
+                />
               </div>
               <div>
                 <div className="text-sm font-semibold text-white">

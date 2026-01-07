@@ -8,6 +8,7 @@ export const brand = {
   shortName: 'MDN',
   tagline: 'Effective. Efficient. Expeditious.',
   website: 'https://matthewdnye.com',
+  logo: 'https://assets.cdn.filesafe.space/mHWnduakz84s7W5eaNra/media/643027c98f3b62399a468225.png',
 
   colors: {
     // Primary brand gold - excellence and value

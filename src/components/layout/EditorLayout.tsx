@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import { brand } from '@/lib/branding'
 
@@ -28,14 +29,14 @@ export function EditorLayout({
               href="/"
               className="flex items-center gap-3 group"
             >
-              <div
-                className="flex h-9 w-9 items-center justify-center rounded-lg font-bold text-sm transition-colors"
-                style={{
-                  backgroundColor: brand.colors.primary,
-                  color: brand.colors.secondary,
-                }}
-              >
-                {brand.shortName}
+              <div className="relative h-9 w-9">
+                <Image
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  width={36}
+                  height={36}
+                  className="rounded-lg object-contain"
+                />
               </div>
               <span className="inline-flex items-center gap-2 -ml-2 px-3 py-1.5 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-100 transition-colors">
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { brand } from '@/lib/branding'
 import { LinkedInIcon, PlusIcon } from '@/components/icons'
 
@@ -15,17 +16,16 @@ export function Header({ variant = 'default' }: HeaderProps) {
         <div className="flex h-16 items-center justify-between">
           {/* Logo / Brand */}
           <Link href="/" className="flex items-center gap-3 group">
-            {/* MDN Monogram */}
-            <div
-              className="relative flex h-10 w-10 items-center justify-center rounded-lg transition-transform group-hover:scale-105"
-              style={{ backgroundColor: brand.colors.secondary }}
-            >
-              <span
-                className="text-lg font-bold"
-                style={{ color: brand.colors.primary }}
-              >
-                {brand.shortName}
-              </span>
+            {/* MDN Logo */}
+            <div className="relative h-10 w-10 transition-transform group-hover:scale-105">
+              <Image
+                src={brand.logo}
+                alt={`${brand.name} logo`}
+                width={40}
+                height={40}
+                className="rounded-lg object-contain"
+                priority
+              />
             </div>
             <div className="hidden sm:block">
               <div className="text-sm font-semibold text-gray-900">
