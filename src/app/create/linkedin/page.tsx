@@ -84,16 +84,16 @@ export default function LinkedInGeneratorPage() {
         </>
       }
     >
-      {/* Main Content */}
-      <div className="flex flex-1">
+      {/* Main Content - stack on mobile, side-by-side on lg+ */}
+      <div className="flex flex-1 flex-col lg:flex-row">
         {/* Editor Sidebar */}
-        <aside className="w-96 border-r bg-gray-50">
+        <aside className="w-full lg:w-96 border-b lg:border-b-0 lg:border-r bg-gray-50 overflow-auto max-h-[50vh] lg:max-h-none">
           <LinkedInEditor />
         </aside>
 
         {/* Preview Area */}
-        <main className="flex flex-1 items-center justify-center bg-gray-100 p-8">
-          <div ref={postRef} className="rounded-xl bg-white p-8 shadow-lg">
+        <main className="flex flex-1 items-start lg:items-center justify-center bg-gray-100 p-4 lg:p-8 overflow-auto">
+          <div ref={postRef} className="rounded-xl bg-white p-4 lg:p-8 shadow-lg max-w-full overflow-x-auto">
             <LinkedInPost />
           </div>
         </main>
