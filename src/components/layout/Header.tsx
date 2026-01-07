@@ -15,7 +15,7 @@ export function Header({ variant = 'default' }: HeaderProps) {
       style={{ backgroundColor: brand.colors.secondary }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
@@ -63,7 +63,7 @@ export function Header({ variant = 'default' }: HeaderProps) {
           {/* CTA Button */}
           <Link
             href="/"
-            className="inline-flex items-center px-5 py-2.5 text-sm font-semibold uppercase tracking-wide transition-all hover:brightness-110"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-all hover:opacity-90"
             style={{
               backgroundColor: brand.colors.primary,
               color: brand.colors.secondary,
