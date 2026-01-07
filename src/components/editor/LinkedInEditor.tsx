@@ -60,7 +60,7 @@ export function LinkedInEditor() {
             onClick={() => setTheme('light')}
             className={`flex-1 rounded-lg border-2 p-3 transition-all ${
               theme === 'light'
-                ? 'border-blue-500 bg-blue-50'
+                ? 'border-[#D9B01C] bg-[#D9B01C]/10'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
           >
@@ -71,7 +71,7 @@ export function LinkedInEditor() {
             onClick={() => setTheme('dark')}
             className={`flex-1 rounded-lg border-2 p-3 transition-all ${
               theme === 'dark'
-                ? 'border-blue-500 bg-blue-50'
+                ? 'border-[#D9B01C] bg-[#D9B01C]/10'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
           >

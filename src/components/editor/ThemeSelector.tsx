@@ -26,7 +26,7 @@ export function ThemeSelector() {
             className={cn(
               'flex-1 rounded-lg border-2 p-3 transition-all',
               theme === t.value
-                ? 'border-blue-500 ring-2 ring-blue-500/20'
+                ? 'border-[#D9B01C] ring-2 ring-[#D9B01C]/20'
                 : 'border-gray-200 hover:border-gray-300'
             )}
           >
