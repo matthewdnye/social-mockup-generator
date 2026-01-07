@@ -141,7 +141,7 @@ export function Footer() {
             <p className="text-xs text-gray-500">
               &copy; {currentYear} {brand.name}. All rights reserved.
             </p>
-            <div className="flex items-center gap-4" role="list" aria-label="Social links">
+            <nav className="flex items-center gap-4" aria-label="Social links">
               {brand.social.linkedin && (
                 <a
                   href={brand.social.linkedin}
@@ -162,12 +162,10 @@ export function Footer() {
               >
                 <EmailIcon />
               </a>
-            </div>
+            </nav>
           </div>
         </div>
       </div>
     </footer>
   )
 }
-
-export default Footer

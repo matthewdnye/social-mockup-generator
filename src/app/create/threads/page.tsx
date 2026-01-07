@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 import dynamicImport from 'next/dynamic'
-import { Button } from '@/components/ui/button'
-import { RotateCcw, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { EditorLayout } from '@/components/layout'
+import { ResetButton } from '@/components/editor/ResetButton'
 
 // Force dynamic rendering (skip static generation)
 export const dynamic = 'force-dynamic'
@@ -47,29 +47,6 @@ const ExportOptions = dynamicImport(
   }
 )
 
-// Reset button component
-function ResetButton() {
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const handleReset = React.useCallback(async () => {
-    if (mounted) {
-      const { usePostStore } = await import('@/hooks/usePostStore')
-      usePostStore.getState().reset()
-    }
-  }, [mounted])
-
-  return (
-    <Button variant="outline" size="sm" onClick={handleReset} className="gap-2">
-      <RotateCcw className="h-4 w-4" />
-      Reset
-    </Button>
-  )
-}
-
 export default function ThreadsGeneratorPage() {
   const postRef = React.useRef<HTMLDivElement>(null)
 
@@ -87,7 +64,7 @@ export default function ThreadsGeneratorPage() {
       {/* Main Content */}
       <div className="flex flex-1">
         {/* Editor Sidebar */}
-        <aside className="w-96 border-r bg-gray-50">
+        <aside className="w-96 border-r bg-gray-50" aria-label="Post editor">
           <ThreadsEditor />
         </aside>
 

@@ -93,5 +93,3 @@ export function Header({ variant = 'default' }: HeaderProps) {
     </header>
   )
 }
-
-export default Header
