@@ -108,10 +108,8 @@ export default function LinkedInGeneratorPage() {
 
         {/* Preview Area */}
         <main className="flex flex-1 items-center justify-center bg-gray-100 p-8">
-          <div className="rounded-xl bg-white p-8 shadow-lg">
-            <div ref={postRef}>
-              <LinkedInPost />
-            </div>
+          <div ref={postRef} className="rounded-xl bg-white p-8 shadow-lg">
+            <LinkedInPost />
           </div>
         </main>
       </div>

@@ -112,10 +112,8 @@ export default function ThreadsGeneratorPage() {
 
         {/* Preview Area */}
         <main className="flex flex-1 items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-8">
-          <div className="rounded-xl bg-white p-8 shadow-lg">
-            <div ref={postRef}>
-              <ThreadsPost />
-            </div>
+          <div ref={postRef} className="rounded-xl bg-white p-8 shadow-lg">
+            <ThreadsPost />
           </div>
         </main>
       </div>

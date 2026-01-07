@@ -110,10 +110,8 @@ export default function FacebookGeneratorPage() {
 
         {/* Preview Area */}
         <main className="flex flex-1 items-center justify-center bg-gray-100 p-8">
-          <div className="rounded-xl bg-white p-8 shadow-lg">
-            <div ref={postRef}>
-              <FacebookPost />
-            </div>
+          <div ref={postRef} className="rounded-xl bg-white p-8 shadow-lg">
+            <FacebookPost />
           </div>
         </main>
       </div>

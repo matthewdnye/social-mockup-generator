@@ -112,10 +112,8 @@ export default function InstagramGeneratorPage() {
 
         {/* Preview Area */}
         <main className="flex flex-1 items-center justify-center bg-gradient-to-br from-pink-50 via-purple-50 to-orange-50 p-8">
-          <div className="rounded-xl bg-white p-8 shadow-lg">
-            <div ref={postRef}>
-              <InstagramPost />
-            </div>
+          <div ref={postRef} className="rounded-xl bg-white p-8 shadow-lg">
+            <InstagramPost />
           </div>
         </main>
       </div>

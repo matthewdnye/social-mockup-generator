@@ -4,6 +4,38 @@ export interface ExportOptions {
   filename?: string
 }
 
+/**
+ * Wait for all images within an element to fully load
+ */
+async function waitForImages(element: HTMLElement): Promise<void> {
+  const images = element.querySelectorAll('img')
+
+  await Promise.all(
+    Array.from(images).map((img) => {
+      // If image is already complete and loaded successfully, resolve immediately
+      if (img.complete && img.naturalWidth > 0) {
+        return Promise.resolve()
+      }
+
+      // Otherwise, wait for load or error
+      return new Promise<void>((resolve) => {
+        const handleLoad = () => {
+          img.removeEventListener('load', handleLoad)
+          img.removeEventListener('error', handleError)
+          resolve()
+        }
+        const handleError = () => {
+          img.removeEventListener('load', handleLoad)
+          img.removeEventListener('error', handleError)
+          resolve() // Continue even if image fails
+        }
+        img.addEventListener('load', handleLoad)
+        img.addEventListener('error', handleError)
+      })
+    })
+  )
+}
+
 export async function exportToImage(
   element: HTMLElement,
   options: ExportOptions = {}
@@ -11,11 +43,15 @@ export async function exportToImage(
   // Dynamically import html2canvas only on client
   const html2canvas = (await import('html2canvas')).default
 
-  const { scale = 2, backgroundColor = '#ffffff' } = options
+  const { scale = 2 } = options
+
+  // Wait for all images to load before capturing
+  await waitForImages(element)
 
   const canvas = await html2canvas(element, {
     scale,
-    backgroundColor,
+    // Don't override backgroundColor - let the wrapper's actual bg show through
+    // This ensures WYSIWYG: what you see is what you get
     useCORS: true,
     allowTaint: true,
     logging: false,
