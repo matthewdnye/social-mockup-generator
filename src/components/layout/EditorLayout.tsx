@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
-import { brand } from '@/lib/branding'
+import { Header } from './Header'
+import { Footer } from './Footer'
 
 interface EditorLayoutProps {
   children: React.ReactNode
@@ -19,29 +19,22 @@ export function EditorLayout({
   actions,
 }: EditorLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Header with MDN branding */}
-      <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur-sm px-4 py-3">
+    <div className="flex min-h-screen flex-col bg-gray-50">
+      {/* Branded Header */}
+      <Header variant="default" />
+
+      {/* Editor Sub-header with title, description, and actions */}
+      <div className="border-b bg-white px-4 py-3">
         <div className="mx-auto max-w-7xl">
-          {/* Top row: Logo and actions */}
+          {/* Top row: Back link and actions */}
           <div className="flex items-center justify-between">
             <Link
               href="/"
-              className="flex items-center gap-2 group"
+              className="inline-flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-100 transition-colors"
             >
-              <div className="relative h-8 w-8 flex-shrink-0">
-                <Image
-                  src={brand.logo}
-                  alt={`${brand.name} logo`}
-                  width={32}
-                  height={32}
-                  className="rounded-lg object-contain"
-                />
-              </div>
-              <span className="inline-flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-100 transition-colors">
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">Back</span>
-              </span>
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Back to Platforms</span>
+              <span className="sm:hidden">Back</span>
             </Link>
             {/* Title - hidden on mobile, show on sm+ */}
             <div className="hidden sm:block border-l pl-4 border-gray-200 flex-1 mx-4">
@@ -61,10 +54,15 @@ export function EditorLayout({
             <p className="text-xs text-gray-600">{description}</p>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      {children}
+      <div className="flex-1 flex flex-col">
+        {children}
+      </div>
+
+      {/* Branded Footer */}
+      <Footer />
     </div>
   )
 }
