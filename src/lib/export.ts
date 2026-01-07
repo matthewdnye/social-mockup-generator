@@ -6,34 +6,48 @@ export interface ExportOptions {
 
 /**
  * Wait for all images within an element to fully load
+ * Includes timeout protection to prevent infinite hanging on slow/broken images
  */
-async function waitForImages(element: HTMLElement): Promise<void> {
+async function waitForImages(element: HTMLElement, timeoutMs = 5000): Promise<void> {
   const images = element.querySelectorAll('img')
 
-  await Promise.all(
-    Array.from(images).map((img) => {
-      // If image is already complete and loaded successfully, resolve immediately
-      if (img.complete && img.naturalWidth > 0) {
-        return Promise.resolve()
-      }
+  const imageLoadPromises = Array.from(images).map((img) => {
+    // If image is already complete and loaded successfully, resolve immediately
+    if (img.complete && img.naturalWidth > 0) {
+      return Promise.resolve()
+    }
 
-      // Otherwise, wait for load or error
-      return new Promise<void>((resolve) => {
-        const handleLoad = () => {
-          img.removeEventListener('load', handleLoad)
-          img.removeEventListener('error', handleError)
-          resolve()
-        }
-        const handleError = () => {
-          img.removeEventListener('load', handleLoad)
-          img.removeEventListener('error', handleError)
-          resolve() // Continue even if image fails
-        }
-        img.addEventListener('load', handleLoad)
-        img.addEventListener('error', handleError)
-      })
+    // Otherwise, wait for load or error
+    return new Promise<void>((resolve) => {
+      const handleLoad = () => {
+        img.removeEventListener('load', handleLoad)
+        img.removeEventListener('error', handleError)
+        resolve()
+      }
+      const handleError = () => {
+        img.removeEventListener('load', handleLoad)
+        img.removeEventListener('error', handleError)
+        resolve() // Continue even if image fails
+      }
+      img.addEventListener('load', handleLoad)
+      img.addEventListener('error', handleError)
     })
-  )
+  })
+
+  // Race between all images loading and a timeout
+  // Clear timeout when images complete to prevent timer accumulation
+  let timeoutId: ReturnType<typeof setTimeout>
+  const timeoutPromise = new Promise<void>((resolve) => {
+    timeoutId = setTimeout(resolve, timeoutMs)
+  })
+
+  await Promise.race([
+    Promise.all(imageLoadPromises).then(() => clearTimeout(timeoutId)),
+    timeoutPromise,
+  ])
+
+  // Ensure cleanup regardless of which promise won
+  clearTimeout(timeoutId!)
 }
 
 export async function exportToImage(

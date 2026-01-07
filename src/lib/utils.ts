@@ -62,3 +62,11 @@ export function getRelativeTime(date: Date): string {
 export function randomBetween(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
+/**
+ * Encode a color value for use in SVG data URIs
+ * Replaces # with %23 for URL compatibility
+ */
+export function encodeColorForSvg(color: string | null | undefined, fallback = '#000000'): string {
+  return (color || fallback).replaceAll('#', '%23')
+}

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { PageWrapper } from '@/components/layout'
 
 const platforms = [
   {
@@ -66,35 +67,73 @@ const platforms = [
   },
 ]
 
+const features = [
+  {
+    title: 'Pixel Perfect',
+    description: "Accurate recreations of each platform's design",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'High Resolution',
+    description: 'Export at 2x for crisp, retina-ready images',
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Dark Mode',
+    description: 'Support for light, dark, and dim themes',
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Instant Download',
+    description: 'Download as PNG instantly, no sign-up required',
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+      </svg>
+    ),
+  },
+]
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto max-w-5xl px-4 py-6">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Social Mockup Generator
-          </h1>
-          <p className="mt-1 text-gray-600">
-            Create realistic social media post screenshots for presentations, ad
-            previews, and content planning
-          </p>
-        </div>
-      </header>
+    <PageWrapper background="gradient" maxWidth="6xl">
+      {/* Hero Section */}
+      <section className="text-center py-8">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+          Create{' '}
+          <span className="text-[#D9B01C]">Stunning</span>{' '}
+          Social Mockups
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+          Generate pixel-perfect social media post screenshots for presentations,
+          ad creative previews, and content planning. Free, instant, no sign-up required.
+        </p>
+      </section>
 
-      {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-4 py-12">
-        <h2 className="mb-8 text-lg font-medium text-gray-700">
+      {/* Platform Selection */}
+      <section className="mt-8">
+        <h2 className="mb-6 text-lg font-semibold text-gray-800">
           Choose a platform to get started
         </h2>
-
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {platforms.map((platform) => (
             <div
               key={platform.id}
-              className={`group relative overflow-hidden rounded-2xl border bg-white p-6 shadow-sm transition-all ${
+              className={`group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all ${
                 platform.available
-                  ? 'hover:shadow-lg hover:border-gray-300'
+                  ? 'hover:shadow-lg hover:border-[#D9B01C]/30 hover:ring-1 hover:ring-[#D9B01C]/20'
                   : 'opacity-60'
               }`}
             >
@@ -109,7 +148,7 @@ export default function HomePage() {
                     {platform.name}
                   </h3>
                   {!platform.available && (
-                    <span className="text-xs text-amber-600 font-medium">
+                    <span className="text-xs font-medium text-amber-600">
                       Coming Soon
                     </span>
                   )}
@@ -130,49 +169,33 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+      </section>
 
-        {/* Features Section */}
-        <section className="mt-16">
-          <h2 className="mb-6 text-lg font-medium text-gray-700">Features</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                title: 'Pixel Perfect',
-                description: 'Accurate recreations of each platform\'s design',
-              },
-              {
-                title: 'High Resolution',
-                description: 'Export at 2x or 3x for crisp images',
-              },
-              {
-                title: 'Dark Mode',
-                description: 'Support for light, dark, and dim themes',
-              },
-              {
-                title: 'Instant Download',
-                description: 'Download as PNG instantly',
-              },
-            ].map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-xl border bg-white p-4"
-              >
-                <h3 className="font-medium text-gray-900">{feature.title}</h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t bg-white py-6">
-        <div className="mx-auto max-w-5xl px-4 text-center text-sm text-gray-500">
-          Built for ad creative previews, content planning, and presentations.
+      {/* Features Section */}
+      <section className="mt-16 pb-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900">
+            Why Use Our Generator?
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Built for marketers, content creators, and presentation pros
+          </p>
         </div>
-      </footer>
-    </div>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature) => (
+            <div
+              key={feature.title}
+              className="rounded-xl border border-gray-200 bg-white p-5 transition-all hover:border-[#D9B01C]/30 hover:shadow-md"
+            >
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#D9B01C]/10 text-[#D9B01C]">
+                {feature.icon}
+              </div>
+              <h3 className="font-semibold text-gray-900">{feature.title}</h3>
+              <p className="mt-1 text-sm text-gray-600">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </PageWrapper>
   )
 }

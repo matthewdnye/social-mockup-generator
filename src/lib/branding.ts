@@ -1,0 +1,55 @@
+/**
+ * Matthew D Nye Brand System
+ * Colors, fonts, and brand constants for consistent styling
+ */
+
+export const brand = {
+  name: 'Matthew D Nye',
+  shortName: 'MDN',
+  tagline: 'Effective. Efficient. Expeditious.',
+  website: 'https://matthewdnye.com',
+
+  colors: {
+    // Primary brand gold - excellence and value
+    primary: '#D9B01C',
+    primaryHover: '#C49F18',
+    primaryLight: '#F5E6A3',
+
+    // Secondary brand black - sophistication and authority
+    secondary: '#090909',
+    secondaryLight: '#1A1A1A',
+
+    // Accent white
+    accent: '#FFFFFF',
+
+    // Neutral grays
+    gray: {
+      50: '#F9FAFB',
+      100: '#F3F4F6',
+      200: '#E5E7EB',
+      300: '#D1D5DB',
+      400: '#9CA3AF',
+      500: '#6B7280',
+      600: '#4B5563',
+      700: '#374151',
+      800: '#1F2937',
+      900: '#111827',
+    },
+  },
+
+  social: {
+    linkedin: 'https://www.linkedin.com/in/matthewdnye',
+    youtube: null,
+    twitter: null,
+  },
+
+  contact: {
+    email: 'matthew@matthewdnye.com',
+  },
+
+  products: [
+    { name: 'Vibe Coding Academy', href: '/vibe-coding' },
+    { name: 'WealthRank SEO', href: '/wealthrank-seo' },
+    { name: 'Elite Advisor Tools', href: 'https://eliteadvisortools.com' },
+  ],
+} as const

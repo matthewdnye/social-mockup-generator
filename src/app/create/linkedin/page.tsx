@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 import dynamicImport from 'next/dynamic'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, RotateCcw, Loader2 } from 'lucide-react'
+import { RotateCcw, Loader2 } from 'lucide-react'
+import { EditorLayout } from '@/components/layout'
 
 // Force dynamic rendering (skip static generation)
 export const dynamic = 'force-dynamic'
@@ -74,31 +74,16 @@ export default function LinkedInGeneratorPage() {
   const postRef = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Header */}
-      <header className="border-b bg-white px-4 py-3">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Back
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-lg font-semibold text-gray-900">LinkedIn Post Generator</h1>
-              <p className="text-sm text-gray-600">
-                Create realistic LinkedIn post mockups
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <ResetButton />
-            <ExportOptions targetRef={postRef} filename="linkedin-mockup" />
-          </div>
-        </div>
-      </header>
-
+    <EditorLayout
+      title="LinkedIn Post Generator"
+      description="Create realistic LinkedIn post mockups"
+      actions={
+        <>
+          <ResetButton />
+          <ExportOptions targetRef={postRef} filename="linkedin-mockup" />
+        </>
+      }
+    >
       {/* Main Content */}
       <div className="flex flex-1">
         {/* Editor Sidebar */}
@@ -113,6 +98,6 @@ export default function LinkedInGeneratorPage() {
           </div>
         </main>
       </div>
-    </div>
+    </EditorLayout>
   )
 }
