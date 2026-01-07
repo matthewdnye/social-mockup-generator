@@ -9,6 +9,7 @@ export const brand = {
   tagline: 'Effective. Efficient. Expeditious.',
   website: 'https://matthewdnye.com',
   logo: 'https://assets.cdn.filesafe.space/mHWnduakz84s7W5eaNra/media/643027c98f3b62399a468225.png',
+  logoLight: 'https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/mHWnduakz84s7W5eaNra/media/63e62d767b2134639f42806e.png',
 
   colors: {
     // Primary brand gold - excellence and value

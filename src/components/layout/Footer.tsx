@@ -39,24 +39,14 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand Column */}
           <div className="md:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <div className="relative h-10 w-10">
-                <Image
-                  src={brand.logo}
-                  alt={`${brand.name} logo`}
-                  width={40}
-                  height={40}
-                  className="rounded-lg object-contain"
-                />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-white">
-                  Social Mockup Generator
-                </div>
-                <div className="text-xs text-gray-400">
-                  by {brand.name}
-                </div>
-              </div>
+            <Link href="/" className="inline-block">
+              <Image
+                src={brand.logoLight}
+                alt={`${brand.name} logo`}
+                width={200}
+                height={50}
+                className="h-12 w-auto object-contain"
+              />
             </Link>
             <p className="mt-4 max-w-md text-sm text-gray-400">
               Create pixel-perfect social media post mockups for X/Twitter, LinkedIn,
