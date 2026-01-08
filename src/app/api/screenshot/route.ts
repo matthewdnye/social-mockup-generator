@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
 
       browser = await puppeteer.default.launch({
         args: chromium.default.args,
-        defaultViewport: chromium.default.defaultViewport,
         executablePath,
         headless: true,
       })
@@ -108,8 +107,8 @@ export async function POST(request: NextRequest) {
     await browser.close()
     browser = null
 
-    // Return the PNG image
-    return new NextResponse(screenshot, {
+    // Return the PNG image - cast to Uint8Array for NextResponse compatibility
+    return new NextResponse(new Uint8Array(screenshot), {
       status: 200,
       headers: {
         'Content-Type': 'image/png',
