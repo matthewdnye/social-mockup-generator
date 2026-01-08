@@ -2,12 +2,16 @@
 
 import * as React from 'react'
 import dynamicImport from 'next/dynamic'
-import { Button } from '@/components/ui/button'
-import { RotateCcw, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { EditorLayout } from '@/components/layout'
+import { ResetButton } from '@/components/editor/ResetButton'
+import { ScalableMockupWrapper } from '@/components/mockups/ScalableMockupWrapper'
 
 // Force dynamic rendering (skip static generation)
 export const dynamic = 'force-dynamic'
+
+// Platform-specific mockup width
+const MOCKUP_WIDTH = 552
 
 // Dynamically import components that use Zustand store
 const LinkedInPost = dynamicImport(
@@ -16,7 +20,7 @@ const LinkedInPost = dynamicImport(
     ssr: false,
     loading: () => (
       <div className="w-[552px] h-[300px] flex items-center justify-center bg-white rounded-xl">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-gray-400" aria-label="Loading preview" />
       </div>
     ),
   }
@@ -47,28 +51,13 @@ const ExportOptions = dynamicImport(
   }
 )
 
-// Reset button component
-function ResetButton() {
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const handleReset = React.useCallback(async () => {
-    if (mounted) {
-      const { usePostStore } = await import('@/hooks/usePostStore')
-      usePostStore.getState().reset()
-    }
-  }, [mounted])
-
-  return (
-    <Button variant="outline" size="sm" onClick={handleReset} className="gap-2">
-      <RotateCcw className="h-4 w-4" />
-      Reset
-    </Button>
-  )
-}
+const UndoRedoButtons = dynamicImport(
+  () => import('@/components/editor/UndoRedoButtons').then((mod) => mod.UndoRedoButtons),
+  {
+    ssr: false,
+    loading: () => <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />,
+  }
+)
 
 export default function LinkedInGeneratorPage() {
   const postRef = React.useRef<HTMLDivElement>(null)
@@ -77,8 +66,10 @@ export default function LinkedInGeneratorPage() {
     <EditorLayout
       title="LinkedIn Post Generator"
       description="Create realistic LinkedIn post mockups"
+      platform="linkedin"
       actions={
         <>
+          <UndoRedoButtons />
           <ResetButton />
           <ExportOptions targetRef={postRef} filename="linkedin-mockup" />
         </>
@@ -87,15 +78,23 @@ export default function LinkedInGeneratorPage() {
       {/* Main Content - stack on mobile, side-by-side on lg+ */}
       <div className="flex flex-1 flex-col lg:flex-row">
         {/* Editor Sidebar */}
-        <aside className="w-full lg:w-96 border-b lg:border-b-0 lg:border-r bg-gray-50 overflow-auto max-h-[50vh] lg:max-h-none">
+        <aside
+          className="w-full lg:w-96 border-b lg:border-b-0 lg:border-r bg-gray-50 overflow-auto max-h-[50vh] lg:max-h-none"
+          aria-label="Post editor"
+        >
           <LinkedInEditor />
         </aside>
 
         {/* Preview Area */}
-        <main className="flex flex-1 items-start lg:items-center justify-center bg-gray-100 p-4 lg:p-8 overflow-auto">
-          <div ref={postRef} className="rounded-xl bg-white p-4 lg:p-8 shadow-lg max-w-full overflow-x-auto">
-            <LinkedInPost />
-          </div>
+        <main
+          className="flex flex-1 items-start lg:items-center justify-center bg-gray-100 p-4 lg:p-8 overflow-auto"
+          aria-label="Post preview"
+        >
+          <ScalableMockupWrapper mockupWidth={MOCKUP_WIDTH}>
+            <div ref={postRef} className="rounded-xl bg-white p-4 lg:p-8 shadow-lg">
+              <LinkedInPost />
+            </div>
+          </ScalableMockupWrapper>
         </main>
       </div>
     </EditorLayout>

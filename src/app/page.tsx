@@ -124,7 +124,7 @@ export default function HomePage() {
 
       {/* Platform Selection */}
       <section className="mt-8">
-        <h2 className="mb-6 text-lg font-semibold text-gray-800">
+        <h2 className="mb-6 text-xl sm:text-2xl font-semibold text-gray-800">
           Choose a platform to get started
         </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
