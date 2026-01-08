@@ -1,6 +1,13 @@
+import type { SerializedMockupState, ScreenshotRequest } from './mockup-serializer'
+
 export interface ExportOptions {
   scale?: number // 1 = 1x, 2 = 2x (retina)
   backgroundColor?: string
+  filename?: string
+}
+
+export interface PlaywrightExportOptions {
+  scale?: 1 | 2 | 3
   filename?: string
 }
 
@@ -124,4 +131,55 @@ export async function exportAndDownload(
 export function generateFilename(platform: string, authorHandle: string): string {
   const timestamp = new Date().toISOString().split('T')[0]
   return `${platform}-${authorHandle}-${timestamp}.png`
+}
+
+/**
+ * Export mockup using Playwright server-side screenshot API
+ * This provides true WYSIWYG rendering using a real browser engine
+ */
+export async function exportViaPlaywright(
+  mockup: SerializedMockupState,
+  options: PlaywrightExportOptions = {}
+): Promise<Blob | null> {
+  const { scale = 2 } = options
+
+  try {
+    const requestBody: ScreenshotRequest = {
+      mockup,
+      scale,
+    }
+
+    const response = await fetch('/api/screenshot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.error || `Screenshot failed: ${response.status}`)
+    }
+
+    return await response.blob()
+  } catch (error) {
+    console.error('Playwright export failed:', error)
+    return null
+  }
+}
+
+/**
+ * Export and download using Playwright API
+ */
+export async function exportAndDownloadViaPlaywright(
+  mockup: SerializedMockupState,
+  options: PlaywrightExportOptions = {}
+): Promise<void> {
+  const { filename = 'social-mockup.png' } = options
+
+  const blob = await exportViaPlaywright(mockup, options)
+  if (blob) {
+    downloadImage(blob, filename)
+  }
 }

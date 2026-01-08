@@ -2,15 +2,17 @@
 
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
-import { exportToImage, downloadImage } from '@/lib/export'
+import { exportViaPlaywright, downloadImage } from '@/lib/export'
+import { serializeMockupState } from '@/lib/mockup-serializer'
 import { useUser } from '@/lib/user-context'
+import { usePostStore } from '@/hooks/usePostStore'
 import { EmailCaptureModal } from './EmailCaptureModal'
 import { Download, Loader2 } from 'lucide-react'
 
 interface ExportButtonProps {
   targetRef: React.RefObject<HTMLElement | null>
   filename?: string
-  scale?: number
+  scale?: 1 | 2 | 3
 }
 
 export function ExportButton({
@@ -23,12 +25,26 @@ export function ExportButton({
   const [showModal, setShowModal] = React.useState(false)
   const [pendingExport, setPendingExport] = React.useState(false)
 
-  const performExport = React.useCallback(async () => {
-    if (!targetRef.current) return
+  // Get current mockup state from store
+  const store = usePostStore()
 
+  const performExport = React.useCallback(async () => {
     setIsExporting(true)
     try {
-      const blob = await exportToImage(targetRef.current, { scale })
+      // Serialize the current store state
+      const mockupState = serializeMockupState({
+        platform: store.platform,
+        theme: store.theme,
+        author: store.author,
+        content: store.content,
+        timestamp: store.timestamp,
+        metrics: store.metrics,
+        images: store.images,
+        client: store.client,
+        privacy: store.privacy,
+      })
+
+      const blob = await exportViaPlaywright(mockupState, { scale })
       if (blob) {
         downloadImage(blob, `${filename}.png`)
       }
@@ -37,7 +53,7 @@ export function ExportButton({
     } finally {
       setIsExporting(false)
     }
-  }, [targetRef, filename, scale])
+  }, [store, filename, scale])
 
   const handleExport = async () => {
     if (!hasValidUser) {
@@ -97,14 +113,28 @@ export function ExportOptions({ targetRef, filename = 'social-mockup' }: ExportO
   const { hasValidUser, isLoading } = useUser()
   const [isExporting, setIsExporting] = React.useState(false)
   const [showModal, setShowModal] = React.useState(false)
-  const [pendingScale, setPendingScale] = React.useState<{ scale: number; suffix: string } | null>(null)
+  const [pendingScale, setPendingScale] = React.useState<{ scale: 1 | 2 | 3; suffix: string } | null>(null)
 
-  const performExport = React.useCallback(async (scale: number, suffix: string) => {
-    if (!targetRef.current) return
+  // Get current mockup state from store
+  const store = usePostStore()
 
+  const performExport = React.useCallback(async (scale: 1 | 2 | 3, suffix: string) => {
     setIsExporting(true)
     try {
-      const blob = await exportToImage(targetRef.current, { scale })
+      // Serialize the current store state
+      const mockupState = serializeMockupState({
+        platform: store.platform,
+        theme: store.theme,
+        author: store.author,
+        content: store.content,
+        timestamp: store.timestamp,
+        metrics: store.metrics,
+        images: store.images,
+        client: store.client,
+        privacy: store.privacy,
+      })
+
+      const blob = await exportViaPlaywright(mockupState, { scale })
       if (blob) {
         downloadImage(blob, `${filename}-${suffix}.png`)
       }
@@ -113,9 +143,9 @@ export function ExportOptions({ targetRef, filename = 'social-mockup' }: ExportO
     } finally {
       setIsExporting(false)
     }
-  }, [targetRef, filename])
+  }, [store, filename])
 
-  const handleExport = async (scale: number, suffix: string) => {
+  const handleExport = async (scale: 1 | 2 | 3, suffix: string) => {
     if (!hasValidUser) {
       setPendingScale({ scale, suffix })
       setShowModal(true)
