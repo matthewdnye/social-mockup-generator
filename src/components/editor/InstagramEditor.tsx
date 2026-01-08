@@ -81,6 +81,7 @@ export function InstagramEditor() {
             value={author.handle?.replace('@', '') || ''}
             onChange={(e) => setAuthor({ handle: e.target.value })}
             placeholder="username"
+            autoComplete="off"
           />
         </div>
 

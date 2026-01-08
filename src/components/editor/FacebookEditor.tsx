@@ -96,6 +96,7 @@ export function FacebookEditor() {
             value={author.name}
             onChange={(e) => setAuthor({ name: e.target.value })}
             placeholder="John Doe"
+            autoComplete="off"
           />
         </div>
 

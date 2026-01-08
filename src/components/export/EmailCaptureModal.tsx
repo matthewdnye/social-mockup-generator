@@ -110,7 +110,9 @@ export function EmailCaptureModal({ isOpen, onClose, onSuccess }: EmailCaptureMo
               <Label htmlFor="firstName">First Name</Label>
               <Input
                 id="firstName"
+                name="firstName"
                 type="text"
+                autoComplete="given-name"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 placeholder="John"
@@ -123,7 +125,9 @@ export function EmailCaptureModal({ isOpen, onClose, onSuccess }: EmailCaptureMo
               <Label htmlFor="lastName">Last Name</Label>
               <Input
                 id="lastName"
+                name="lastName"
                 type="text"
+                autoComplete="family-name"
                 value={formData.lastName}
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 placeholder="Smith"
@@ -137,7 +141,9 @@ export function EmailCaptureModal({ isOpen, onClose, onSuccess }: EmailCaptureMo
             <Label htmlFor="email">Email Address</Label>
             <Input
               id="email"
+              name="email"
               type="email"
+              autoComplete="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="john@example.com"

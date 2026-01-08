@@ -64,6 +64,7 @@ export function PostEditor() {
             value={author.name}
             onChange={(e) => setAuthor({ name: e.target.value })}
             placeholder="John Doe"
+            autoComplete="off"
           />
         </div>
 
@@ -74,6 +75,7 @@ export function PostEditor() {
             value={author.handle}
             onChange={(e) => setAuthor({ handle: e.target.value })}
             placeholder="@johndoe"
+            autoComplete="off"
           />
         </div>
 

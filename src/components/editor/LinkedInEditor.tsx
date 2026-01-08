@@ -100,6 +100,7 @@ export function LinkedInEditor() {
             value={author.name}
             onChange={(e) => setAuthor({ name: e.target.value })}
             placeholder="John Doe"
+            autoComplete="off"
           />
         </div>
 
@@ -110,6 +111,7 @@ export function LinkedInEditor() {
             value={author.headline || ''}
             onChange={(e) => setAuthor({ headline: e.target.value })}
             placeholder="Senior Software Engineer at Tech Company"
+            autoComplete="off"
           />
         </div>
 
