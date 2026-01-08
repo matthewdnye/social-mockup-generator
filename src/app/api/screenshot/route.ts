@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chromium } from 'playwright-core'
 import type { ScreenshotRequest } from '@/lib/mockup-serializer'
 import { generateMockupHTML } from './html-generator'
 
@@ -24,10 +23,17 @@ export async function POST(request: NextRequest) {
     // Generate complete HTML for the mockup
     const html = generateMockupHTML(mockup)
 
-    // Launch browser
-    browser = await chromium.launch({
-      headless: true,
-    })
+    // Dynamic import for serverless compatibility
+    // Use playwright-aws-lambda for Vercel/AWS Lambda environments
+    const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+
+    if (isServerless) {
+      const playwrightAws = await import('playwright-aws-lambda')
+      browser = await playwrightAws.launchChromium({ headless: true })
+    } else {
+      const { chromium } = await import('playwright-core')
+      browser = await chromium.launch({ headless: true })
+    }
 
     const page = await browser.newPage({
       deviceScaleFactor: scale,
