@@ -4,7 +4,11 @@ import { generateMockupHTML } from './html-generator'
 
 // Vercel serverless function config
 export const runtime = 'nodejs'
-export const maxDuration = 30
+export const maxDuration = 60
+
+// Chromium release URL for @sparticuz/chromium-min
+const CHROMIUM_REMOTE_URL =
+  'https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar'
 
 export async function POST(request: NextRequest) {
   let browser = null
@@ -23,37 +27,70 @@ export async function POST(request: NextRequest) {
     // Generate complete HTML for the mockup
     const html = generateMockupHTML(mockup)
 
-    // Import playwright and chromium based on environment
-    const { chromium } = await import('playwright-core')
+    // Import puppeteer-core
+    const puppeteer = await import('puppeteer-core')
 
-    // In serverless (Vercel), use @sparticuz/chromium for the executable
+    // In serverless (Vercel), use @sparticuz/chromium-min with remote executable
     const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
 
     if (isServerless) {
-      const chromiumModule = await import('@sparticuz/chromium')
-      browser = await chromium.launch({
-        args: chromiumModule.default.args,
-        executablePath: await chromiumModule.default.executablePath(),
+      const chromium = await import('@sparticuz/chromium-min')
+      const executablePath = await chromium.default.executablePath(CHROMIUM_REMOTE_URL)
+
+      browser = await puppeteer.default.launch({
+        args: chromium.default.args,
+        defaultViewport: chromium.default.defaultViewport,
+        executablePath,
         headless: true,
       })
     } else {
-      // Local development - use system Chromium
-      browser = await chromium.launch({
+      // Local development - use system Chrome
+      // Try common Chrome paths
+      const possiblePaths = [
+        '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium-browser',
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      ]
+
+      let execPath = ''
+      for (const p of possiblePaths) {
+        try {
+          const fs = await import('fs')
+          if (fs.existsSync(p)) {
+            execPath = p
+            break
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      if (!execPath) {
+        throw new Error('Chrome executable not found for local development')
+      }
+
+      browser = await puppeteer.default.launch({
+        executablePath: execPath,
         headless: true,
       })
     }
 
-    const page = await browser.newPage({
+    const page = await browser.newPage()
+    await page.setViewport({
+      width: 1200,
+      height: 800,
       deviceScaleFactor: scale,
     })
 
     // Load the HTML content
     await page.setContent(html, {
-      waitUntil: 'networkidle',
+      waitUntil: 'networkidle0',
     })
 
     // Wait for fonts to load
-    await page.waitForTimeout(500)
+    await page.evaluate(() => document.fonts.ready)
+    await new Promise((r) => setTimeout(r, 300))
 
     // Get the mockup element
     const element = await page.$('#mockup-container')
@@ -71,8 +108,8 @@ export async function POST(request: NextRequest) {
     await browser.close()
     browser = null
 
-    // Return the PNG image - convert Buffer to Uint8Array for NextResponse
-    return new NextResponse(new Uint8Array(screenshot), {
+    // Return the PNG image
+    return new NextResponse(screenshot, {
       status: 200,
       headers: {
         'Content-Type': 'image/png',
@@ -84,13 +121,17 @@ export async function POST(request: NextRequest) {
     console.error('Screenshot error:', error)
 
     if (browser) {
-      await browser.close()
+      try {
+        await browser.close()
+      } catch {
+        // ignore cleanup errors
+      }
     }
 
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'Screenshot failed'
+        error: error instanceof Error ? error.message : 'Screenshot failed',
       },
       { status: 500 }
     )
