@@ -45,22 +45,28 @@ export function ScalableMockupWrapper({
   }, [mockupWidth])
 
   useEffect(() => {
+    // Initial calculation
     calculateScale()
 
-    // Recalculate on resize
-    const handleResize = () => {
+    // Use ResizeObserver for efficient resize handling
+    const resizeObserver = new ResizeObserver(() => {
       calculateScale()
+    })
+
+    // Observe parent element for size changes
+    const parent = containerRef.current?.parentElement
+    if (parent) {
+      resizeObserver.observe(parent)
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [calculateScale])
+    // Fallback to window resize for edge cases
+    window.addEventListener('resize', calculateScale)
 
-  // Also recalculate when children change (in case of dynamic content)
-  useEffect(() => {
-    const timer = setTimeout(calculateScale, 100)
-    return () => clearTimeout(timer)
-  }, [children, calculateScale])
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', calculateScale)
+    }
+  }, [calculateScale])
 
   return (
     <div

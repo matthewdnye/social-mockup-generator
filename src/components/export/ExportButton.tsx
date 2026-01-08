@@ -148,14 +148,14 @@ export function ExportOptions({ targetRef, filename = 'social-mockup' }: ExportO
     }
   }, [store, filename])
 
-  const handleExport = async (scale: 1 | 2 | 3, suffix: string) => {
+  const handleExport = React.useCallback(async (scale: 1 | 2 | 3, suffix: string) => {
     if (!hasValidUser) {
       setPendingScale({ scale, suffix })
       setShowModal(true)
       return
     }
     await performExport(scale, suffix)
-  }
+  }, [hasValidUser, performExport])
 
   const handleModalSuccess = async () => {
     setShowModal(false)

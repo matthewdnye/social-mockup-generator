@@ -39,9 +39,15 @@ interface DialogDescriptionProps {
 const DialogContext = React.createContext<{
   open: boolean
   onOpenChange: (open: boolean) => void
+  titleId: string
+  descriptionId: string
 } | null>(null)
 
 export function Dialog({ open, onOpenChange, children }: DialogProps) {
+  // Generate stable IDs for accessibility
+  const titleId = React.useId()
+  const descriptionId = React.useId()
+
   // Close on escape key
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -68,7 +74,7 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
   if (!open) return null
 
   return (
-    <DialogContext.Provider value={{ open, onOpenChange }}>
+    <DialogContext.Provider value={{ open, onOpenChange, titleId, descriptionId }}>
       {children}
     </DialogContext.Provider>
   )
@@ -90,6 +96,8 @@ export function DialogContent({ children, className }: DialogContentProps) {
       <div
         role="dialog"
         aria-modal="true"
+        aria-labelledby={context.titleId}
+        aria-describedby={context.descriptionId}
         className={cn(
           'relative z-50 w-full max-w-md rounded-lg bg-white p-6 shadow-xl',
           'animate-in fade-in-0 zoom-in-95 duration-200',
@@ -132,16 +140,21 @@ export function DialogFooter({ children, className }: DialogFooterProps) {
 }
 
 export function DialogTitle({ children, className }: DialogTitleProps) {
+  const context = React.useContext(DialogContext)
   return (
-    <h2 className={cn('text-lg font-semibold leading-none tracking-tight', className)}>
+    <h2
+      id={context?.titleId}
+      className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+    >
       {children}
     </h2>
   )
 }
 
 export function DialogDescription({ children, className }: DialogDescriptionProps) {
+  const context = React.useContext(DialogContext)
   return (
-    <p className={cn('text-sm text-gray-500', className)}>
+    <p id={context?.descriptionId} className={cn('text-sm text-gray-500', className)}>
       {children}
     </p>
   )

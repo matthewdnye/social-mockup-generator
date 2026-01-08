@@ -25,6 +25,7 @@ interface PostStore {
   setMetrics: (metrics: Partial<PostMetrics>) => void
   addImage: (image: PostImage) => void
   removeImage: (index: number) => void
+  setImages: (images: PostImage[]) => void
   setClient: (client: string) => void
   setPrivacy: (privacy: 'public' | 'friends' | 'only_me') => void
   randomizeMetrics: () => void
@@ -74,6 +75,8 @@ export const usePostStore = create<PostStore>()((set) => ({
     set((state) => ({
       images: state.images.filter((_, i) => i !== index),
     })),
+
+  setImages: (images) => set({ images }),
 
   setClient: (client) => set({ client }),
 

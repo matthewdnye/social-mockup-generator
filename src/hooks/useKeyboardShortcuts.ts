@@ -73,7 +73,12 @@ export function useKeyboardShortcuts(
  * Format shortcut for display
  */
 export function formatShortcut(shortcut: ShortcutConfig): string {
-  const isMac = typeof window !== 'undefined' && navigator.platform.includes('Mac')
+  // Use userAgentData with fallback to userAgent (navigator.platform is deprecated)
+  const isMac =
+    typeof window !== 'undefined' &&
+    // @ts-expect-error - userAgentData not in all TS types yet
+    (navigator.userAgentData?.platform === 'macOS' ||
+      /Mac|iPhone|iPad|iPod/.test(navigator.userAgent))
   const parts: string[] = []
 
   if (shortcut.ctrl || shortcut.meta) {

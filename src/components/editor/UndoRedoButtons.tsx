@@ -11,7 +11,11 @@ export function UndoRedoButtons() {
   // Keyboard shortcuts for undo/redo
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+      // Use userAgentData with fallback to userAgent (navigator.platform is deprecated)
+      const isMac =
+        // @ts-expect-error - userAgentData not in all TS types yet
+        navigator.userAgentData?.platform === 'macOS' ||
+        /Mac|iPhone|iPad|iPod/.test(navigator.userAgent)
       const modifier = isMac ? e.metaKey : e.ctrlKey
 
       if (modifier && e.key === 'z') {

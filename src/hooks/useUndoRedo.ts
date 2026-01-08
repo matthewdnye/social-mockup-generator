@@ -84,8 +84,8 @@ export function useUndoRedo() {
       store.setContent(state.content)
       store.setClient(state.client)
       store.setPrivacy(state.privacy)
-      // Note: metrics and images would need dedicated setters in the store
-      // For now, we'll update what we can
+      store.setMetrics(state.metrics)
+      store.setImages(state.images)
       lastSavedState.current = JSON.stringify(state)
     },
     [store]
