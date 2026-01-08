@@ -23,16 +23,24 @@ export async function POST(request: NextRequest) {
     // Generate complete HTML for the mockup
     const html = generateMockupHTML(mockup)
 
-    // Dynamic import for serverless compatibility
-    // Use playwright-aws-lambda for Vercel/AWS Lambda environments
+    // Import playwright and chromium based on environment
+    const { chromium } = await import('playwright-core')
+
+    // In serverless (Vercel), use @sparticuz/chromium for the executable
     const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
 
     if (isServerless) {
-      const playwrightAws = await import('playwright-aws-lambda')
-      browser = await playwrightAws.launchChromium({ headless: true })
+      const chromiumModule = await import('@sparticuz/chromium')
+      browser = await chromium.launch({
+        args: chromiumModule.default.args,
+        executablePath: await chromiumModule.default.executablePath(),
+        headless: true,
+      })
     } else {
-      const { chromium } = await import('playwright-core')
-      browser = await chromium.launch({ headless: true })
+      // Local development - use system Chromium
+      browser = await chromium.launch({
+        headless: true,
+      })
     }
 
     const page = await browser.newPage({
